@@ -361,7 +361,11 @@ abstract class SFFormInput {
 			$jstext = 'jQuery(function(){' . $jstext . '});';
 
 			// write JS code directly to the page's code
-			$output->addHeadItem( Html::inlineScript( $jstext ) );
+			$output->addHeadItem(
+				method_exists( 'ResourceLoader', 'makeInlineScript' )
+				? ResourceLoader::makeInlineScript( $jstext )
+				: Html::inlineScript( $jstext )
+			);
 		}
 
 		return $input->getHtmlText();
