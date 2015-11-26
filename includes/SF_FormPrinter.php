@@ -356,7 +356,7 @@ END;
 			if ( $form_is_disabled ) $attributes['disabled'] = true;
 			$button = Html::input( null, Sanitizer::decodeCharReferences( $add_button_text ), 'button', $attributes );
 			$text .= <<<END
-	</div><!-- multipleTemplateList -->
+	</div><div style="clear: both"></div><!-- multipleTemplateList -->
 		<p>$button</p>
 		<div class="sfErrorMessages"></div>
 	</div><!-- multipleTemplateWrapper -->
