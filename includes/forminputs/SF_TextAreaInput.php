@@ -165,6 +165,7 @@ class SFTextAreaInput extends SFFormInput {
 			$article = new Article( $wgTitle );
 			$editPage = new EditPage( $article );
 			WikiEditorHooks::editPageShowEditFormInitial( $editPage, $wgOut );
+			$wgOut->addJsConfigVars( 'wgWikiEditorResourceModules', $wgOut->getModules() );
 			$className = 'wikieditor ';
 		} else {
 			$className = '';
