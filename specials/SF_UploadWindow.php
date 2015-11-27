@@ -367,18 +367,8 @@ class SFUploadWindow extends UnlistedSpecialPage {
 		// Semantic Forms change - output Javascript to either
 		// fill in or append to the field in original form, and
 		// close the window
-		# Chop off any directories in the given filename
-		if ( $this->mDesiredDestName ) {
-			$basename = $this->mDesiredDestName;
-		} elseif ( is_a( $this->mUpload, 'UploadFromFile' ) ) {
-			// MediaWiki 1.24+?
-			$imageTitle = $this->mUpload->getTitle();
-			$basename = $imageTitle->getText();
-		} else {
-			$basename = $this->mSrcName;
-		}
+		$basename = $this->mUpload->getTitle()->getPrefixedText();
 
-		$basename = str_replace( '_', ' ', $basename );
 		// UTF8-decoding is needed for IE.
 		// Actually, this doesn't seem to fix the encoding in IE
 		// any more... and it messes up the encoding for all other
