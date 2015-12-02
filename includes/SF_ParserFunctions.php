@@ -11,6 +11,7 @@
  *
  * '#default_form' is called as:
  * {{#default_form:formName}}
+ * or {{#default_form:formName|Text to display}}
  *
  * This function sets the specified form to be the default form for pages
  * in that category. It is a substitute for the now-deprecated "Has
@@ -188,6 +189,11 @@ class SFParserFunctions {
 
 		$parserOutput = $parser->getOutput();
 		$parserOutput->setProperty( 'SFDefaultForm', $defaultForm );
+
+		if ( isset( $params[1] ) ) {
+			// Handle {{#default_form: FORM | text to display}}
+			return $params[1];
+		}
 
 		// Display information on the page, if this is a category.
 		if ( $curTitle->getNamespace() == NS_CATEGORY ) {
