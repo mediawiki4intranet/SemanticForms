@@ -426,6 +426,18 @@ class SFAutoeditAPI extends ApiBase {
 
 	protected function doStore( EditPage $editor ) {
 
+		$returnto = $this->getRequest()->getVal( 'returnto' );
+		if ( $returnto ) {
+			global $wgScriptPath;
+			$sp = $wgScriptPath;
+			if ( !$sp ) {
+				$sp = '/';
+			}
+			if ( substr( $returnto, 0, strlen( $sp ) ) !== $sp ) {
+				$returnto = Title::newFromText( $returnto )->getLocalUrl();
+			}
+		}
+
 		$title = $editor->getTitle();
 
 		// If they used redlink=1 and the page exists, redirect to the main article and send notice
@@ -515,8 +527,10 @@ class SFAutoeditAPI extends ApiBase {
 				$query = $resultDetails['redirect'] ? 'redirect=no' : '';
 				$anchor = isset( $resultDetails['sectionanchor'] ) ? $resultDetails['sectionanchor'] : '';
 
-				$this->getOutput()->redirect( $title->getFullURL( $query ) . $anchor );
-				$this->getResult()->addValue( NULL, 'redirect', $title->getFullURL( $query ) . $anchor );
+				if ( !$returnto )
+					$returnto = $title->getFullURL( $query ) . $anchor;
+				$this->getOutput()->redirect( $returnto );
+				$this->getResult()->addValue( NULL, 'redirect', $returnto );
 				return false; // success
 
 			case EditPage::AS_SUCCESS_UPDATE: // Article successfully updated
@@ -535,8 +549,10 @@ class SFAutoeditAPI extends ApiBase {
 					}
 				}
 
-				$this->getOutput()->redirect( $title->getFullURL( $extraQuery ) . $sectionanchor );
-				$this->getResult()->addValue( NULL, 'redirect', $title->getFullURL( $extraQuery ) . $sectionanchor );
+				if ( !$returnto )
+					$returnto = $title->getFullURL( $extraQuery ) . $sectionanchor;
+				$this->getOutput()->redirect( $returnto );
+				$this->getResult()->addValue( NULL, 'redirect', $returnto );
 
 				return false; // success
 
@@ -544,8 +560,10 @@ class SFAutoeditAPI extends ApiBase {
 
 				$this->logMessage( 'User tried to create a blank page', self::DEBUG );
 
-				$this->getOutput()->redirect( $editor->getContextTitle()->getFullURL() );
-				$this->getResult()->addValue( NULL, 'redirect', $editor->getContextTitle()->getFullURL() );
+				if ( !$returnto )
+					$returnto = $editor->getContextTitle()->getFullURL();
+				$this->getOutput()->redirect( $returnto );
+				$this->getResult()->addValue( NULL, 'redirect', $returnto );
 
 				return false; // success
 

@@ -1966,6 +1966,8 @@ END;
 			$form_text .= Html::hidden( 'wpEditToken', $wgUser->getEditToken() );
 		}
 
+		$form_text .= Html::hidden( 'returnto', $wgRequest->getVal( 'returnto' ) );
+
 		$form_text .= "\t</form>\n";
 		$wgParser->replaceLinkHolders( $form_text );
 		Hooks::run( 'sfRenderingEnd', array( &$form_text ) );
