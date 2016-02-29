@@ -1308,8 +1308,8 @@ jQuery.fn.initializeJSElements = function( partOfMultiple ) {
 
 	this.find('.autoGrow').autoGrow();
 	this.find('.sfFancyBox').fancybox({
-		'width'         : '75%',
-		'height'        : '75%',
+		'width'         : '90%',
+		'height'        : '90%',
 		'autoScale'     : false,
 		'transitionIn'  : 'none',
 		'transitionOut' : 'none',

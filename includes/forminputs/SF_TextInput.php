@@ -92,47 +92,19 @@ class SFTextInput extends SFFormInput {
 	 * @return string|null
 	 */
 	protected static function getPreviewImage( $imageName ) {
-		$previewImage = null;
-
 		$imageTitle = Title::newFromText( $imageName, NS_FILE );
-
-		if ( !is_object( $imageTitle ) ) {
-			return $previewImage;
+		if ( !is_object( $imageTitle ) || !( $file = wfFindFile( $imageTitle ) ) ) {
+			return '';
 		}
-
-		$api = new ApiMain( new FauxRequest( array(
-			'action' => 'query',
-			'format' => 'json',
-			'prop' => 'imageinfo',
-			'iiprop' => 'url',
-			'titles' => $imageTitle->getFullText(),
-			'iiurlwidth' => 200
-		), true ), true );
-
-		$api->execute();
-		$result = $api->getResultData();
-
-		$url = false;
-
-		if ( array_key_exists( 'query', $result ) && array_key_exists( 'pages', $result['query'] ) ) {
-			foreach ( $result['query']['pages'] as $page ) {
-				if ( array_key_exists( 'imageinfo', $page ) ) {
-					foreach ( $page['imageinfo'] as $imageInfo ) {
-						$url = $imageInfo['thumburl'];
-						break;
-					}
-				}
-			}
+		if ( $file->getHandler() && ( $thumb = $file->createThumb( 200, 200 ) ) ) {
+			$text = '<img src="'.$thumb.'" alt="'.htmlspecialchars( $imageName ).
+				'" title="'.htmlspecialchars( $imageName ).'" />';
+		} else {
+			$text = wfMsg( 'download' );
 		}
-
-		if ( $url !== false ) {
-			$previewImage = Html::element(
-				'img',
-				array( 'src' => $url )
-			);
-		}
-
-		return $previewImage;
+		// Show preview in fancybox for browser-viewable pictures
+		$viewable = preg_match( '#^image/(jpeg|png|gif)$#', $file->getMimeType() );
+		return '<a href="'.$file->getUrl().'" target="_blank"'.( $viewable ? ' class="sfFancyBox"' : '' ).">$text</a>";
 	}
 
 	public static function uploadableHTML( $input_id, $delimiter = null, $default_filename = null, $cur_value = '', $other_args = array() ) {
