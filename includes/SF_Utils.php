@@ -361,6 +361,10 @@ END;
 			'ext.smw.sorttable'
 		);
 
+		// Prevent FOUT (Flash Of Unstyled Text)
+		$output->addModuleStyles( array(
+			'ext.semanticforms.main',
+		) );
 		$output->addModules( $mainModules );
 
 		$otherModules = array();

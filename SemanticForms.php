@@ -271,6 +271,7 @@ if ( defined( 'MW_SUPPORTS_RESOURCE_MODULES' ) ) {
 				'sf_bad_date_error',
 				'sf_pipe_error',
 			),
+			'position' => 'top',
 		),
 		'ext.semanticforms.browser' => $sfgResourceTemplate + array(
 			'scripts' => 'libs/jquery.browser.js',
