@@ -37,11 +37,13 @@ textarea.mandatoryField {
 /* Used in form pages */
 table.formtable {
 	/* width: 100%; */
+	font-size: 100%;
 }
 
 table.formtable th {
 	text-align: left;
 	vertical-align: top;
+	padding-top: 5px;
 	/* max-width: 150px; */
 }
 /* another possible layout */
@@ -82,56 +84,35 @@ span.mandatoryFieldsSpan {
 }
 
 /** INPUT FIELD STYLE */
-#sfForm .createboxInput,
-#sfForm .mandatoryField,
-#sfForm textarea {
+#sfForm input:not([type]),
+#sfForm input[type="text"],
+#sfForm input[type="password"],
+#sfForm select {
 	max-width: 100%;
+	font-size: 100%;
+	font-family: sans-serif;
+	background: white;
 	margin-left: 0;
 	border-radius: 3px;
 	border: 1px solid #BBB;
-	padding: 4px 8px;
+	padding: 3px 5px;
+	box-sizing: border-box;
+	height: 2em;
 	display: inline-block;
 }
 
-#sfForm input[readonly] {
+#sfForm select[multiple] {
+    height: auto !important;
+}
+
+#sfForm input[readonly], #sfForm input[disabled],
+#sfForm select[readonly], #sfForm select[disabled] {
     background: #EEE;
 }
 
 #sfForm .select2-container {
     border: none;
     padding: 0;
-}
-#sfForm textarea,
-form input.formInput,
-#sfForm input.yearInput,
-#sfForm input.dayInput,
-#sfForm input.hoursInput,
-#sfForm input.minutesInput,
-#sfForm input.secondsInput {
-    border-radius: 3px;
-    border: 1px solid #BBB;
-    padding: 4px 8px;
-}
-
-/* The dropdowns need slightly different settings. */
-#sfForm select.monthInput,
-#sfForm select.ampmInput {
-    border-radius: 3px;
-    border: 1px solid #BBB;
-    padding: 3px 8px;
-}
-
-#sfForm input#wpSummary,
-#sfForminput#wpSummary:hover {
-    border-radius: 3px;
-    border: 1px solid #BBB;
-    padding: 4px 8px;
-}
-#sfForm select,
-#sfForm input[type="checkbox"] {
-    min-width: 0;
-    max-width: 100%;
-    width: auto !important;
 }
 #sfForm input#wpSummary,
 #sfForm input#wpSummary:hover {
