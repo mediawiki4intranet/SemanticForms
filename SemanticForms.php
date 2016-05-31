@@ -256,6 +256,7 @@ if ( defined( 'MW_SUPPORTS_RESOURCE_MODULES' ) ) {
 				'jquery.ui.widget',
 				'ext.semanticforms.fancybox',
 				'ext.semanticforms.autogrow',
+				'ext.semanticforms.dynatree',
 				'mediawiki.util',
 				'ext.semanticforms.select2',
 			),
