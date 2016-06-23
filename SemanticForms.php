@@ -218,6 +218,7 @@ $GLOBALS['wgAutoloadClasses']['SFCategoriesInput'] = __DIR__ . '/includes/formin
 $GLOBALS['wgAutoloadClasses']['SFTokensInput'] = __DIR__ . '/includes/forminputs/SF_TokensInput.php';
 $GLOBALS['wgAutoloadClasses']['SFGoogleMapsInput'] = __DIR__ . '/includes/forminputs/SF_GoogleMapsInput.php';
 $GLOBALS['wgAutoloadClasses']['SFOpenLayersInput'] = __DIR__ . '/includes/forminputs/SF_OpenLayersInput.php';
+$GLOBALS['wgAutoloadClasses']['SFFileInput'] = __DIR__ . '/includes/forminputs/SF_FileInput.php';
 
 $GLOBALS['wgJobClasses']['createPage'] = 'SFCreatePageJob';
 $GLOBALS['wgAutoloadClasses']['SFCreatePageJob'] = __DIR__ . '/includes/SF_CreatePageJob.php';

@@ -911,21 +911,24 @@ class SFAutoeditAPI extends ApiBase {
 			$this->mOptions = SFUtils::array_merge_recursive_distinct( $data, $this->mOptions );
 		}
 
-		// We already preloaded stuff for saving/previewing -
-		// do not do this again.
-		if ( $isFormSubmitted && !$wgRequest->getCheck( 'partial' ) ) {
-			$preloadContent = '';
-			$pageExists = false;
-		} else {
-			// Source of the data is a page.
-			$pageExists = ( is_a( $targetTitle, 'Title') && $targetTitle->exists() );
-		}
-
 		// Spoof $wgRequest for SFFormPrinter::formHTML().
 		if ( isset( $_SESSION ) ) {
 			$wgRequest = new FauxRequest( $this->mOptions, true, $_SESSION );
 		} else {
 			$wgRequest = new FauxRequest( $this->mOptions, true );
+		}
+
+		// We already preloaded stuff for saving/previewing -
+		// do not do this again.
+		if ( $isFormSubmitted && !$wgRequest->getCheck( 'partial' ) ) {
+			Hooks::run( 'sfEditFormParseRequest', array( $wgRequest, &$this->mOptions, $targetTitle, $formTitle,
+				$this->mAction === self::ACTION_PREVIEW || $this->mAction == self::ACTION_DIFF ) );
+			SFFileInput::handleUploads();
+			$preloadContent = '';
+			$pageExists = false;
+		} else {
+			// Source of the data is a page.
+			$pageExists = ( is_a( $targetTitle, 'Title') && $targetTitle->exists() );
 		}
 
 		// get wikitext for submitted data and form
