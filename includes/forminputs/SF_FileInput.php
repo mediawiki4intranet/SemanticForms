@@ -68,9 +68,10 @@ class SFFileInput extends SFFormInput
 
 	protected static function handleUpload($field, $fileInfo)
 	{
-		global $wgUser;
+		global $wgUser, $wgRequest;
 		$upload = UploadFromSF::newFromUpload($fileInfo);
-		// Upload verification
+        Hooks::run( 'sfAddFilePrefix', array($wgRequest, &$upload, &$fileInfo));
+        // Upload verification
 		$details = $upload->verifyUpload();
 		if ($details['status'] != UploadBase::OK)
 		{
@@ -96,11 +97,11 @@ class SFFileInput extends SFFormInput
 			}
 			else
 			{
-				$i = 1;
+                $i = 1;
 				do
 				{
-					$name = preg_replace_callback('/(^|[^\.])(\.[^\.]*)?$/s', function($m) use($i) { return $m[1].$i.$m[2]; }, $fileInfo['name']);
-					$upload = UploadFromSF::newFromUpload($fileInfo, $name);
+					$name = preg_replace_callback('/(^|[^\.])(\.[^\.]*)?$/s', function($m) use($i) { return $m[1]."_".$i.$m[2]; }, $fileInfo['name']);
+                    $upload = UploadFromSF::newFromUpload($fileInfo, $name);
 					$file = $upload->getLocalFile();
 					$i++;
 				} while ($file->exists());
