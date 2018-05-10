@@ -1095,7 +1095,7 @@ END;
 		return true;
 	}
 
-	static function createFormLink( &$parser, $params, $parserFunctionName ) {
+	static function createFormLink( $parser, $params, $parserFunctionName ) {
 		// Set defaults.
 		$inFormName = $inLinkStr = $inExistingPageLinkStr = $inLinkType =
 			$inTooltip = $inQueryStr = $inTargetName = '';
@@ -1259,7 +1259,7 @@ END;
 		return $str;
 	}
 
-	static function loadScriptsForPopupForm( &$parser ) {
+	static function loadScriptsForPopupForm( $parser ) {
 		$parser->getOutput()->addModules( 'ext.semanticforms.popupformedit' );
 		return true;
 	}
@@ -1306,7 +1306,7 @@ END;
 	 * @param ResourceLoader &$resourceLoader The ResourceLoader object
 	 * @return bool Always true
 	 */
-	public static function registerModules( ResourceLoader &$resourceLoader ) {
+	public static function registerModules( ResourceLoader $resourceLoader ) {
 		if ( class_exists( 'WikiEditorHooks' ) ) {
 			$resourceLoader->register( array(
 				'ext.semanticforms.wikieditor' => array(

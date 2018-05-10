@@ -158,7 +158,7 @@ class SFParserFunctions {
 	// only gets added to the page once
 	static $num_autocompletion_inputs = 0;
 
-	static function registerFunctions( &$parser ) {
+	static function registerFunctions( $parser ) {
 		global $wgOut;
 
 		$parser->setFunctionHook( 'default_form', array( 'SFParserFunctions', 'renderDefaultForm' ) );
@@ -174,7 +174,7 @@ class SFParserFunctions {
 		return true;
 	}
 
-	static function renderDefaultform( &$parser ) {
+	static function renderDefaultform( $parser ) {
 		$curTitle = $parser->getTitle();
 
 		$params = func_get_args();
@@ -210,7 +210,7 @@ class SFParserFunctions {
 		// It's not a category - display nothing.
 	}
 
-	static function renderFormLink ( &$parser ) {
+	static function renderFormLink ( $parser ) {
 		$params = func_get_args();
 		array_shift( $params ); // We don't need the parser.
 
@@ -219,7 +219,7 @@ class SFParserFunctions {
 		return $parser->insertStripItem( SFUtils::createFormLink( $parser, $params, 'formlink' ), $parser->mStripState );
 	}
 
-	static function renderFormRedLink ( &$parser ) {
+	static function renderFormRedLink ( $parser ) {
 		$params = func_get_args();
 		array_shift( $params ); // We don't need the parser.
 
@@ -228,7 +228,7 @@ class SFParserFunctions {
 		return $parser->insertStripItem( SFUtils::createFormLink( $parser, $params, 'formredlink' ), $parser->mStripState );
 	}
 
-	static function renderQueryFormLink ( &$parser ) {
+	static function renderQueryFormLink ( $parser ) {
 		$params = func_get_args();
 		array_shift( $params ); // We don't need the parser.
 
@@ -237,7 +237,7 @@ class SFParserFunctions {
 		return $parser->insertStripItem( SFUtils::createFormLink( $parser, $params, 'queryformlink' ), $parser->mStripState );
 	}
 
-	static function renderFormInput( &$parser ) {
+	static function renderFormInput( $parser ) {
 		global $wgHtml5;
 
 		$params = func_get_args();
@@ -418,7 +418,7 @@ class SFParserFunctions {
 	/**
 	 * {{#arraymap:value|delimiter|var|formula|new_delimiter}}
 	 */
-	static function renderArrayMap( &$parser, $frame, $args ) {
+	static function renderArrayMap( $parser, $frame, $args ) {
 		// Set variables.
 		$value = isset( $args[0] ) ? trim( $frame->expand( $args[0] ) ) : '';
 		$delimiter = isset( $args[1] ) ? trim( $frame->expand( $args[1] ) ) : ',';
@@ -456,7 +456,7 @@ class SFParserFunctions {
 	/**
 	 * {{#arraymaptemplate:value|template|delimiter|new_delimiter}}
 	 */
-	static function renderArrayMapTemplate( &$parser, $frame, $args ) {
+	static function renderArrayMapTemplate( $parser, $frame, $args ) {
 		// Set variables.
 		$value = isset( $args[0] ) ? trim( $frame->expand( $args[0] ) ) : '';
 		$template = isset( $args[1] ) ? trim( $frame->expand( $args[1] ) ) : '';
@@ -492,7 +492,7 @@ class SFParserFunctions {
 	}
 
 
-	static function renderAutoEdit( &$parser ) {
+	static function renderAutoEdit( $parser ) {
 		// Set defaults.
 		$formcontent = '';
 		$linkString = null;
@@ -619,7 +619,7 @@ class SFParserFunctions {
 	/**
 	 * Load scripts and style files for AutoEdit
 	 */
-	private static function loadScriptsForAutoEdit ( &$parser ) {
+	private static function loadScriptsForAutoEdit ( $parser ) {
 		global $sfgScriptPath;
 
 		if ( defined( 'MW_SUPPORTS_RESOURCE_MODULES' ) ) {

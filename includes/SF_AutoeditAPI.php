@@ -485,7 +485,7 @@ class SFAutoeditAPI extends ApiBase {
 				// show normal Edit page
 
 				// remove Preview and Diff standard buttons from editor page
-				Hooks::register('EditPageBeforeEditButtons', function( &$editor, &$buttons, &$tabindex ){
+				Hooks::register('EditPageBeforeEditButtons', function( $editor, &$buttons, $tabindex ){
 					foreach (array_keys($buttons) as $key) {
 						if ($key !== 'save') {
 							unset($buttons[$key]);

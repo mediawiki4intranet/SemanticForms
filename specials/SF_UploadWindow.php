@@ -150,7 +150,7 @@ class SFUploadWindow extends UnlistedSpecialPage {
 			$this->processUpload();
 		} else {
 			# Backwards compatibility hook
-			if( !Hooks::run( 'UploadForm:initial', array( &$this ) ) ) {
+			if( !Hooks::run( 'UploadForm:initial', array( $this ) ) ) {
 				wfDebug( "Hook 'UploadForm:initial' broke output of the upload form" );
 				return;
 			}
@@ -328,7 +328,7 @@ class SFUploadWindow extends UnlistedSpecialPage {
 		if ( !$status->isOK() )
 			return $this->showUploadForm( $this->getUploadForm( $this->getOutput()->parse( $status->getWikiText() ) ) );
 
-		if( !Hooks::run( 'UploadForm:BeforeProcessing', array( &$this ) ) ) {
+		if( !Hooks::run( 'UploadForm:BeforeProcessing', array( $this ) ) ) {
 			wfDebug( "Hook 'UploadForm:BeforeProcessing' broke processing the file.\n" );
 			// This code path is deprecated. If you want to break upload processing
 			// do so by hooking into the appropriate hooks in UploadBase::verifyUpload
@@ -419,7 +419,7 @@ END;
 		print $output;
 		$img = null; // @todo: added to avoid passing a ref to null - should this be defined somewhere?
 
-		Hooks::run( 'SpecialUploadComplete', array( &$this ) );
+		Hooks::run( 'SpecialUploadComplete', array( $this ) );
 	}
 
 	/**
