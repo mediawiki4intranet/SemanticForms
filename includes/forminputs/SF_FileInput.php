@@ -146,7 +146,11 @@ class SFFileInput extends SFFormInput
 		if ($clear)
 			self::clearUploads(array(), $clear);
 		if (isset($_FILES['_newfile']))
+		{
 			self::handleRecurseUploads(array(), $_FILES['_newfile']);
+			// Fucking ProcessCacheLRU !!
+			RepoGroup::singleton()->clearCache();
+		}
 	}
 }
 
