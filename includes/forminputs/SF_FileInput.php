@@ -70,12 +70,12 @@ class SFFileInput extends SFFormInput
 	{
 		global $wgUser, $wgRequest;
 		$upload = UploadFromSF::newFromUpload($fileInfo);
-        Hooks::run( 'sfAddFilePrefix', array($wgRequest, &$upload, &$fileInfo));
-        // Upload verification
+		Hooks::run('sfAddFilePrefix', array($wgRequest, &$upload, &$fileInfo));
+		// Upload verification
 		$details = $upload->verifyUpload();
 		if ($details['status'] != UploadBase::OK)
 		{
-			//self::processVerificationError($details);
+			throw new MWException(wfMessage($upload->getVerificationErrorCode($details['status'])));
 			return;
 		}
 		// Verify permissions for this title
@@ -83,29 +83,14 @@ class SFFileInput extends SFFormInput
 		if ($permErrors !== true)
 		{
 			$code = array_shift($permErrors[0]);
-			//self::showRecoverableUploadError(self::msg($code, $permErrors[0])->parse());
 			return;
 		}
 		// Check if the file already exists
 		$file = $upload->getLocalFile();
-		if ($file->exists())
+		if ($file->exists() && $file->getSha1() == $upload->getTempFileSha1Base36())
 		{
-			if ($file->getSha1() == $upload->getTempFileSha1Base36())
-			{
-				self::setPathVal($field, $file->getTitle()->getPrefixedText());
-				return;
-			}
-			else
-			{
-                $i = 1;
-				do
-				{
-					$name = preg_replace_callback('/(^|[^\.])(\.[^\.]*)?$/s', function($m) use($i) { return $m[1]."_".$i.$m[2]; }, $fileInfo['name']);
-                    $upload = UploadFromSF::newFromUpload($fileInfo, $name);
-					$file = $upload->getLocalFile();
-					$i++;
-				} while ($file->exists());
-			}
+			self::setPathVal($field, $file->getTitle()->getPrefixedText());
+			return;
 		}
 		$status = $upload->performUpload('-', '', false, $wgUser);
 		self::setPathVal($field, $file->getTitle()->getPrefixedText());
@@ -113,9 +98,9 @@ class SFFileInput extends SFFormInput
 
 	protected static function handleRecurseUploads($name, $array)
 	{
-		if (!is_array($array['tmp_name']))
+		if (!empty($array['tmp_name']) && !is_array($array['tmp_name']))
 			self::handleUpload($name, $array);
-		else
+		elseif (is_array($array['tmp_name']))
 		{
 			foreach ($array['tmp_name'] as $key => $sub)
 			{
